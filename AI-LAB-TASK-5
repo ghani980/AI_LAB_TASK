@@ -1,0 +1,88 @@
+1. DFS with Stack & Node
+2. Research about "Inorder, Preorder, Postorder" and implement in DFS
+
+# Define the Node class
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+# DFS implementation using Stack
+def dfs_with_stack(root):
+    if not root:
+        return []
+
+    stack = [root]  # Stack to hold nodes to visit
+    result = []     # List to store the DFS traversal order
+
+    while stack:
+        node = stack.pop()  # Pop the last node added to the stack
+        result.append(node.value)  # Add the value of the current node to the result
+
+        # Push right child first to ensure left child is processed first (LIFO)
+        if node.right:
+            stack.append(node.right)
+        if node.left:
+            stack.append(node.left)
+
+    return result
+
+
+
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+
+# Perform DFS using stack
+print(dfs_with_stack(root))  # Output: [1, 2, 4, 5, 3]
+
+# DFS Traversal Methods for a Binary Tree
+
+# Inorder Traversal
+def inorder_traversal(root):
+    result = []
+    if root:
+        result.extend(inorder_traversal(root.left))  # Visit left subtree
+        result.append(root.value)  # Visit root node
+        result.extend(inorder_traversal(root.right))  # Visit right subtree
+    return result
+
+# Preorder Traversal
+def preorder_traversal(root):
+    result = []
+    if root:
+        result.append(root.value)  # Visit root node
+        result.extend(preorder_traversal(root.left))  # Visit left subtree
+        result.extend(preorder_traversal(root.right))  # Visit right subtree
+    return result
+
+# Postorder Traversal
+def postorder_traversal(root):
+    result = []
+    if root:
+        result.extend(postorder_traversal(root.left))  
+        result.extend(postorder_traversal(root.right))  
+        result.append(root.value)  # Visit root node
+    return result
+
+
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+
+
+print("Inorder Traversal:", inorder_traversal(root))  
+print("Preorder Traversal:", preorder_traversal(root))  
+print("Postorder Traversal:", postorder_traversal(root))  
+
+
+
+
+
+
+
