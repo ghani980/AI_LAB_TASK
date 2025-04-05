@@ -1,0 +1,85 @@
+1. BFS without Queue & without Node
+
+def bfs_without_queue(graph, start):
+    visited = set()  # Set to keep track of visited nodes
+    result = []      # List to store the BFS order
+    visited.add(start)
+    result.append(start)
+    
+    current_level = [start]  # Start with the first node in the list
+    
+    while current_level:
+        next_level = []
+        for node in current_level:
+            for neighbor in graph[node]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    next_level.append(neighbor)
+                    result.append(neighbor)
+        current_level = next_level  # Move to the next level
+    
+    return result
+
+
+
+graph = {
+    0: [1, 2],
+    1: [0, 3, 4],
+    2: [0],
+    3: [1],
+    4: [1]
+}
+print(bfs_without_queue(graph, 0))  
+
+
+
+
+
+2. BFS with Queue & Node
+
+
+from collections import deque
+
+# Node class to represent a node with value and neighbors
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.neighbors = []
+
+    def add_neighbor(self, neighbor):
+        self.neighbors.append(neighbor)
+
+def bfs_with_queue_and_node(start_node):
+    visited = set()  # Set to track visited nodes
+    queue = deque([start_node])  # Queue to hold nodes to explore
+
+    while queue:
+        node = queue.popleft()  # Dequeue the front node
+        if node.value not in visited:
+            print(node.value, end=" ")  # Print the node's value
+            visited.add(node.value)  # Mark as visited
+
+            # Enqueue unvisited neighbors
+            for neighbor in node.neighbors:
+                if neighbor.value not in visited:
+                    queue.append(neighbor)
+
+# Create nodes
+node_a = Node('A')
+node_b = Node('B')
+node_c = Node('C')
+node_d = Node('D')
+node_e = Node('E')
+node_f = Node('F')
+
+# Establish graph (undirected edges)
+node_a.add_neighbor(node_b)
+node_a.add_neighbor(node_c)
+node_b.add_neighbor(node_d)
+node_b.add_neighbor(node_e)
+node_c.add_neighbor(node_f)
+node_e.add_neighbor(node_f)
+
+# Run BFS starting from node A
+bfs_with_queue_and_node(node_a)
+
